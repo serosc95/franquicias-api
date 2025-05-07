@@ -52,6 +52,40 @@ Una API RESTful desarrollada en Spring Boot 3.4.5 para gestionar franquicias, su
 
 ---
 
+## 🧱 SQL: Creación de tablas en PostgreSQL
+
+```sql
+-- Tabla de franquicias
+CREATE TABLE franquicia (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- Tabla de sucursales
+CREATE TABLE sucursal (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    franquicia_id INTEGER NOT NULL REFERENCES franquicia(id) ON DELETE CASCADE,
+    CONSTRAINT uq_sucursal_nombre_franquicia UNIQUE(nombre, franquicia_id)
+);
+
+-- Tabla de productos
+CREATE TABLE producto (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    stock INTEGER NOT NULL CHECK (stock >= 0),
+    sucursal_id INTEGER NOT NULL REFERENCES sucursal(id) ON DELETE CASCADE,
+    CONSTRAINT uq_producto_nombre_sucursal UNIQUE(nombre, sucursal_id)
+);
+
+-- Índices para búsquedas comunes
+CREATE INDEX idx_sucursal_franquicia ON sucursal(franquicia_id);
+CREATE INDEX idx_producto_sucursal ON producto(sucursal_id);
+CREATE INDEX idx_producto_nombre ON producto(nombre);
+```
+
+---
+
 ## 🔧 Configuración de `application.properties`
 
 Ubicado en: `src/main/resources/application.properties`
