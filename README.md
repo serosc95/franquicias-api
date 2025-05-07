@@ -113,12 +113,14 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 2. Compila y ejecuta con Maven:
 
    ```bash
+   ./mvnw clean install
    ./mvnw spring-boot:run
    ```
 
    o si no tienes `mvnw`:
 
    ```bash
+   mvn clean install
    mvn spring-boot:run
    ```
 
