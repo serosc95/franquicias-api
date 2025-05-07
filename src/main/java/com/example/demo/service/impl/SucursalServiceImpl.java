@@ -10,6 +10,7 @@ import com.example.demo.repository.FranquiciaRepository;
 import com.example.demo.repository.SucursalRepository;
 import com.example.demo.service.SucursalService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,5 +30,13 @@ public class SucursalServiceImpl implements SucursalService {
 
         sucursal.setFranquicia(franquiciaOpt.get());
         return sucursalRepository.save(sucursal);
+    }
+
+    @Override
+    public Sucursal update(Long id, String nombre) {
+        Sucursal sucursal = sucursalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada con ID: " + id));
+
+        sucursal.setNombre(nombre);
+        return sucursalRepository.save(sucursal);   
     }
 }
