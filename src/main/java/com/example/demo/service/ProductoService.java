@@ -7,7 +7,8 @@ import com.example.demo.model.Producto;
 public interface ProductoService {
     Producto create(Long sucursalId, Producto producto);
     void delete(Long id);
-    Producto update(Long id, int stock);
+    Producto updateStock(Long id, int stock);
+    Producto updateName(Long id, String nombre);
     Map<Long, Producto> getProductMaxStock();
 }
 

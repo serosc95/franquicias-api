@@ -42,9 +42,16 @@ public class ProductoController {
     }
 
     @PatchMapping("/{id}/stock")
-    public ResponseEntity<Producto> updateProducto(@PathVariable Long id, @RequestBody ProductoUpdateDTO dto) {
+    public ResponseEntity<Producto> updateStockProducto(@PathVariable Long id, @RequestBody ProductoUpdateDTO dto) {
 
-        Producto productoUpdate = productoService.update(id, dto.getStock());
+        Producto productoUpdate = productoService.updateStock(id, dto.getStock());
+        return ResponseEntity.status(HttpStatus.OK).body(productoUpdate);
+    }
+
+    @PatchMapping("/{id}/name")
+    public ResponseEntity<Producto> updateNameProducto(@PathVariable Long id, @RequestBody ProductoUpdateDTO dto) {
+
+        Producto productoUpdate = productoService.updateName(id, dto.getNombre());
         return ResponseEntity.status(HttpStatus.OK).body(productoUpdate);
     }
 

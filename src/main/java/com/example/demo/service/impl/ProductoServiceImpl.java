@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.Producto;
 import com.example.demo.model.Sucursal;
@@ -43,11 +42,17 @@ public class ProductoServiceImpl implements ProductoService {
         productoRepository.deleteById(id);
     }
 
-    @Transactional
     @Override
-    public Producto update(Long id, int stock) {
+    public Producto updateStock(Long id, int stock) {
         Producto producto = productoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
         producto.setStock(stock);
+        return productoRepository.save(producto);
+    }
+
+    @Override
+    public Producto updateName(Long id, String nombre) {
+        Producto producto = productoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+        producto.setNombre(nombre);
         return productoRepository.save(producto);
     }
 
