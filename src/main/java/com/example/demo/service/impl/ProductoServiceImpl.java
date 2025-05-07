@@ -1,5 +1,8 @@
 package com.example.demo.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -46,5 +49,18 @@ public class ProductoServiceImpl implements ProductoService {
         Producto producto = productoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
         producto.setStock(stock);
         return productoRepository.save(producto);
+    }
+
+    @Override
+    public Map<Long, Producto> getProductMaxStock() {
+        Map<Long, Producto> resultado = new HashMap<>();
+        List<Sucursal> sucursales = sucursalRepository.findAll();
+
+        for (Sucursal sucursal : sucursales) {
+            productoRepository.findProductMaxStock(sucursal.getId())
+                    .ifPresent(producto -> resultado.put(sucursal.getId(), producto));
+        }
+
+        return resultado;
     }
 }
