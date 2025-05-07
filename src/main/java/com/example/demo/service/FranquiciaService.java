@@ -7,5 +7,6 @@ import com.example.demo.model.Franquicia;
 public interface FranquiciaService {
     List<Franquicia> findAll();
     Franquicia create(Franquicia f);
+    Franquicia update(Long id, String nombre);
 }
 

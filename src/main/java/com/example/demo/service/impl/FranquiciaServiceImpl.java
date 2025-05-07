@@ -7,6 +7,7 @@ import com.example.demo.model.Franquicia;
 import com.example.demo.repository.FranquiciaRepository;
 import com.example.demo.service.FranquiciaService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,14 @@ public class FranquiciaServiceImpl implements FranquiciaService {
     @Override
     public Franquicia create(Franquicia f) {
         return franquiciaRepository.save(f);
+    }
+
+    @Override
+    public Franquicia update(Long id, String nombre) {
+        Franquicia franquicia = franquiciaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Franquicia no encontrada con ID: " + id));
+
+        franquicia.setNombre(nombre);
+        return franquiciaRepository.save(franquicia);   
     }
 }
 
