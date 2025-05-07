@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.Producto;
 import com.example.demo.model.Sucursal;
@@ -37,5 +38,13 @@ public class ProductoServiceImpl implements ProductoService {
             throw new IllegalArgumentException("Producto no encontrado con id: " + id);
         }
         productoRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public Producto update(Long id, int stock) {
+        Producto producto = productoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+        producto.setStock(stock);
+        return productoRepository.save(producto);
     }
 }

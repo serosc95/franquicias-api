@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ProductoCreateDTO;
+import com.example.demo.dto.ProductoUpdateDTO;
 import com.example.demo.mapper.ProductoMapper;
 import com.example.demo.model.Producto;
 import com.example.demo.service.ProductoService;
@@ -33,6 +35,13 @@ public class ProductoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProducto(@PathVariable Long id) {
         productoService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("/{id}/stock")
+    public ResponseEntity<Producto> updateProducto(@PathVariable Long id, @RequestBody ProductoUpdateDTO dto) {
+
+        Producto productoUpdate = productoService.update(id, dto.getStock());
+        return ResponseEntity.status(HttpStatus.OK).body(productoUpdate);
     }
 }
