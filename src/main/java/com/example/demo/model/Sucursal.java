@@ -1,12 +1,18 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Sucursal {
@@ -20,6 +26,10 @@ public class Sucursal {
     @ManyToOne
     @JsonBackReference
     private Franquicia franquicia;
+
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Producto> productos = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -43,6 +53,14 @@ public class Sucursal {
 
     public void setFranquicia(Franquicia franquicia) {
         this.franquicia = franquicia;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
     }
 }
 
