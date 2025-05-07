@@ -30,4 +30,12 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setSucursal(sucursalOpt.get());
         return productoRepository.save(producto);
     }
+
+    @Override
+    public void delete(Long id) {
+        if (!productoRepository.existsById(id)) {
+            throw new IllegalArgumentException("Producto no encontrado con id: " + id);
+        }
+        productoRepository.deleteById(id);
+    }
 }

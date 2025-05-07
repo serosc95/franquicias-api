@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,8 +25,14 @@ public class ProductoController {
     private final ProductoService productoService;
 
     @PostMapping("/sucursal/{sucursalId}")
-    public ResponseEntity<Producto> createSucursal(@PathVariable Long sucursalId, @Valid @RequestBody ProductoCreateDTO dto) {
+    public ResponseEntity<Producto> createProducto(@PathVariable Long sucursalId, @Valid @RequestBody ProductoCreateDTO dto) {
         Producto p = ProductoMapper.fromDto(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(productoService.create(sucursalId, p));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProducto(@PathVariable Long id) {
+        productoService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

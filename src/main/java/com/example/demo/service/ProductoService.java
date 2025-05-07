@@ -4,5 +4,6 @@ import com.example.demo.model.Producto;
 
 public interface ProductoService {
     Producto create(Long sucursalId, Producto producto);
+    void delete(Long id);
 }
 
